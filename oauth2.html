@@ -68,7 +68,19 @@
             <li class="list-group-item">
                 <h2 class="subtitle">Setting up the Express App</h2>
                 <p class="paragraph">
-                    Just basic setup for an express App using EJS. Copied from other apps of mine.
+                    Just basic setup for an express App using EJS. Copied from other apps of mine. Then we create the basic routes and templates. A few auth routes and we set the navs. I used the partials for navs instead of having them in each template with the style tag. This finishes the setup before installing Passport. 
+                </p>
+            </li>
+            <li class="list-group-item">
+                <h2 class="subtitle">Basic Passport Setup</h2>
+                <p class="paragraph">
+                    We need to install a few packages. One being strategies, which are the ways to login using 3rd party auth. We install two packages <em>passport and passport-google-oauth20</em>. We then create a directory for passport configuration called config. Inside we create a file <em>passport-setup.js</em>. Inside this file we require both packages under the const passport and GoogleStrategy. We then set up the start for the strategy with <code>passport.use(new GoogleStrategy({optionsForStrategy})</code>
+                </p>
+            </li>
+            <li class="list-group-item">
+                <h2 class="subtitle">Google Strategy Setup</h2>
+                <p class="paragraph">
+                    We need to use the GoogleAPI to use OAuth. We are going to need a few things, for auth we need a <em>client ID</em> and a <em>client secret</em> from <em>google developer console</em>. We need a user there to set this up. We need to create a new project here. We then have to Enable APIs and Services, we do this by clicking on the button. For OAuth2.0 we need to use the Google+ API. 
                 </p>
             </li>
         </ul>

@@ -1,7 +1,18 @@
 const   express     = require('express'),
         app         = express()
 
+
+//DOT ENV
+require('dotenv').config()
+//ROUTES
+
+const   authRoutes   = require('./routes/auth-routes')
+
+//set up view engine
 app.set('view engine', 'ejs')
+
+// set up routes
+app.use('/auth',authRoutes)
 
 // mongoose.connect(process.env.DB_URL, {
 //     useNewUrlParser: true,
