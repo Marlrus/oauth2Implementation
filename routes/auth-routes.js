@@ -1,4 +1,5 @@
-const router = require('express').Router({mergeParams: true})
+const   router      = require('express').Router({mergeParams: true}),
+        passport    = require('passport')
 
 //Auth Login
 
@@ -13,10 +14,10 @@ router.get('/logout',(req,res)=>{
 })
 
 
-//Auth with google
-router.get('/google', (req,res)=>{
-    //handle with passport
-    res.send('logging in with google')
-})
+//Auth with google GO TO CONSENT SCREEN
+router.get('/google',passport.authenticate('google',{
+    //Add , in the array if you want any other info from google
+    scope: ['profile']
+}))
 
 module.exports = router

@@ -1,5 +1,6 @@
-const   express     = require('express'),
-        app         = express()
+const   express         = require('express'),
+        app             = express(),
+        passportSetup   = require('./config/passport-setup')
 
 
 //DOT ENV

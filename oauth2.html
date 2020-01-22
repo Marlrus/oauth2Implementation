@@ -44,7 +44,7 @@
         <h1 class="display-3 text-center">OAuth2 Implementation<hr></h1>
         <header>
             <p class="paragraph">
-                This is study into the implementation of Google OAuth2 for future webApps.
+                This is study into the implementation of Google OAuth2 for future webApps. Done through the OAuth (Passport.js) Tutorials from <em>The Net Ninja</em> in YouTube.
             </p>
         </header>
         <ul class="list-group">
@@ -80,7 +80,19 @@
             <li class="list-group-item">
                 <h2 class="subtitle">Google Strategy Setup</h2>
                 <p class="paragraph">
-                    We need to use the GoogleAPI to use OAuth. We are going to need a few things, for auth we need a <em>client ID</em> and a <em>client secret</em> from <em>google developer console</em>. We need a user there to set this up. We need to create a new project here. We then have to Enable APIs and Services, we do this by clicking on the button. For OAuth2.0 we need to use the Google+ API. 
+                    We need to use the GoogleAPI to use OAuth. We are going to need a few things, for auth we need a <em>client ID</em> and a <em>client secret</em> from <em>google developer console</em>. We need a user there to set this up. We need to create a new project here. We then have to Enable APIs and Services, we do this by clicking on the button. For OAuth2.0 we need to use the Google+ API. <strong>Note:</strong> The Google+ API is not the solution, now we must use another API <em>Google People</em>.
+                </p>
+            </li>
+            <li class="list-group-item">
+                <h2 class="subtitle">Google API and Credentials</h2>
+                <p class="paragraph">
+                    We need to go to <a href="console.cloud.google.com" target="_blank">The google Cloud Platform</a> to get the API and credentials we need. First we create a project to manage API Keys and Credentials. Once that is done, we go the API & Services tab and click on Credentials and then create credentials. We add the URL <em>http://localhost:3000</em> and then on the other field add <em>http://localhost:3000/whatever</em> which we will change. Once that is done we get a <em><u>client Id: and client secret</u></em> which we need for the passport-setup. We save these in our .env using the dotenv package which we require with <code>require('dotenv').config()</code> in our <em>.env</em> file we use the following format <code>VARIABLE_NAME=value</code>, we call it in our app using <code>process.env.VARIABLE_NAME</code> <strong>Note:</strong> The Net Ninja uses another way to hide the info through a js file <em>keys.js</em> he uses <code>module.exports = {google: {clientID:'value',clientSecret:'value'}}</code> and adds the file to our .gitignore file so it doesn't get uploaded. He gets them to the template through require <code>const keys = require(./keys)</code> and uses it through <code>keys.google.clientID</code> and the same for clientSecret.
+                </p>
+            </li>
+            <li class="list-group-item">
+                <h2 class="subtitle">The Redirect URI</h2>
+                <p class="paragraph">
+                    We change the Authorized Redirect URIs from our credentials to <em>http://localhost:3000/auth/google/redirect</em> which will be our callback route. We must also add this URI in our GoogleStrategy through <code>callbackURL:'/auth/google/redirect'</code> Now we have to focus on our route that takes the user to our consent screen <code>/auth/google</code>. We require passport in our auth-routes. We change our route to <code>router.get('/google',passport.authenticate('google', scope:['profile']))</code> it uses the passport object, the autheticate method, and it knows through 'google' that it has to redirect to the google consent screen (Something to do with us having a GoogleStrategy). The second parameter is the <em>scope</em> which tells Google what information you want to retireve from the user. Other options can be sought in the Google API, but we just have 'profile' at the moment. We have the set up but we are not using the code anywhere, we need to require it first! To fix this we require it in our app.js through <code>passportSetup   = require('./config/passport-setup')</code> This associates the GoogleStrategy to the passport object.
                 </p>
             </li>
         </ul>
