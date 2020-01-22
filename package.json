@@ -1,0 +1,11 @@
+{
+  "name": "OAuth2Test",
+  "version": "1.0.0",
+  "main": "app.js",
+  "author": "Marlrus",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^3.0.1",
+    "express": "^4.17.1"
+  }
+}

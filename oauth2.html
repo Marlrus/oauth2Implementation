@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        code{
+            background-color: rgba(0,0,0,.075);
+            font-weight: bold;
+        }
+        .subtitle{
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 0;
+            padding: 5px;
+            margin-top: 5px;
+            background-color: rgba(0,0,0,.075);
+            text-align: center;
+        }
+        h3{
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0;
+            padding: 5px;
+            margin-top: 10px;
+        }
+        .paragraph{
+            margin: 0.5rem 0 0.5rem;
+        }
+        .tab{
+            margin: 0 1rem;
+        }
+        </style>
+
+    <title>OAuth2 Implementation</title>
+  </head>
+  <body>
+      
+    <div class="container">
+        <h1 class="display-3 text-center">OAuth2 Implementation<hr></h1>
+        <header>
+            <p class="paragraph">
+                This is study into the implementation of Google OAuth2 for future webApps.
+            </p>
+        </header>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <h2 class="subtitle">Intro</h2>
+                <p class="paragraph">
+                    O Auth stands for Open Authorization and allows to login into an app with 3rd party accounts. This is great for us as developers, and great for users as it centralizes logins. Users will press the button to login, they will be redirected to a consent screen and then they will login to our website. We can store a version of their profile in our app using the data from google. We will do this through <em>passport.js</em>
+                </p>
+            </li>
+            <li class="list-group-item">
+                <h2 class="subtitle">OAuth Flow</h2>
+                <p class="paragraph">
+                    When the user clocks on the button for OAuth, we will redirect them to a route in our webApp <em>/auth/provider</em> where provider is whichever provider they choose to do a 3rd party login with. We handle these routes within our application in our Server Express App (Node). This then redirects to the OAuth provider consent screen that grants permission. We then redirect to a custom route <em>/auth/provider/cb</em> where <u>cb</u> stands for <em>callback</em>. In this route we have access to the user information. Here we handle whether the user has been here before or not and do something depending on the status. For either of these we will have a version of our user in our on db. After that we create a unique cookie which gets sent to the browser. The browser stores that cookie which allows us to navigate pages with your auth through the decoding of the cookie and retrieval of user information. <strong>Note:</strong> There are a few other things that need to be done in between, but this is the main gist of it. 
+                </p>
+                <p class="paragraph">
+                    <strong>Passport</strong>
+                    <br>
+                    We will use passport when: We handle the "auth/provider" route in our app. When we recieve user details from the provider. When we create a unique cookie. And when we decode the cookie and retrieve user information (serializing and deserializing). 
+                </p>
+            </li>
+            <li class="list-group-item">
+                <h2 class="subtitle">Setting up the Express App</h2>
+                <p class="paragraph">
+                    Just basic setup for an express App using EJS. Copied from other apps of mine.
+                </p>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    </body>
+</html>
