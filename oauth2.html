@@ -104,13 +104,25 @@
             <li class="list-group-item">
                 <h2 class="subtitle">Creating a DB on mLab</h2>
                 <p class="paragraph">
-                    What we want to do with the callback is lookup/create user on our db (mongo in this case). mLab is like mongoDB Atlas. I will use mongoDB Atlas instead. I do the standard process I often do now and set up the URI in the .env file.
+                    What we want to do with the callback is lookup/create user on our db (mongo in this case). mLab is like mongoDB Atlas. I will use mongoDB Atlas instead. I do the standard process I often do now and set up the DB_URI in the .env file to be called using process.env.DB_URI.
                 </p>
             </li>
             <li class="list-group-item">
                 <h2 class="subtitle">Making the User Model</h2>
                 <p class="paragraph">
-                    
+                    We create a model directory where we create our user schema. This guy goes about it a bit different, saving Schema as a const and saving the Model as a const as well. <code>const Schema = mongoose.Schema</code> this means we do <code>const userSchema = new Schema{}</code> instead of the code we usually use. <code>const User = mongoose.model('User',userSchema)</code> this means we do <code>module.exports = User</code> instead of our usual code. This ends this episode, we must require it to work though. 
+                </p>
+            </li>
+            <li class="list-group-item">
+                <h2 class="subtitle">Saving Users to MongoDB</h2>
+                <p class="paragraph">
+                    To save the data to our DB we do it in the passport-setup.js file inside the callback function. We have to require our new User model to use it. Inside the callback function we do the same code we usually do. In the video, The Net Ninja uses promises and doesn't use the create() method, instead he does <code>new User({dataObject}).save(callbackFunction)</code> I refactored to async and used <code>const newUser = await User.create({dataObject})</code> which is much cleaner and allows a console.log outside of using a callback function. 
+                </p>
+            </li>
+            <li class="list-group-item">
+                <h2 class="subtitle">Retrieving records, not duplicating Users</h2>
+                <p class="paragraph">
+                    When someone logs in, we want to check whether the user exists already in our database so we don't create duplicates and we can ID the user. This is done in the callback before we create the user. We use the mongoose method findOne() and use google_id as our search parameter. I refactored everything to async <code>const existingUser = await User.findOne({google_id: profile.id})</code> we then use an if statement <code>if(existingUser){}else{}</code>. If the query returns a value, we can handle the data differently, if there is no existingUser then we can create one with the code we had before.
                 </p>
             </li>
         </ul>
