@@ -20,4 +20,9 @@ router.get('/google',passport.authenticate('google',{
     scope: ['profile']
 }))
 
+//Google Redirect
+router.get('/google/redirect', passport.authenticate('google'), (req,res)=>{
+    res.send('Callback')
+})
+
 module.exports = router
