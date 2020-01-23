@@ -101,6 +101,18 @@
                     We just have the query string in the URL. The flow until now user goes through our app to auth/google/ which redirects to the consent screen. This then gives us a code (in the query string) from google in the redirect URI. The next step is to exchange code for information using passport. After this is done, it launchs the passport callback function. We first add <code>passport.authenticate('google')</code> to the <em>/google/redirect</em> route (Reason unclear/something to do with passport getting the info back from google. I removed the code and got sent to the route res.send but got no information). Then we use the callback function. The passport callback function has 4 parameters <code>(accessToken,refreshToken,profile,done)=>{}</code> accessToken gives us access to whatever information the client consented to, refreshToken refreshes the duration of the accessToken (it expires), profile is the information for the profile (defined in scope), and done is what lets us leave the function. Insde the function we use <code>console.log(profile)</code> which returns the information JSON object. 
                 </p>
             </li>
+            <li class="list-group-item">
+                <h2 class="subtitle">Creating a DB on mLab</h2>
+                <p class="paragraph">
+                    What we want to do with the callback is lookup/create user on our db (mongo in this case). mLab is like mongoDB Atlas. I will use mongoDB Atlas instead. I do the standard process I often do now and set up the URI in the .env file.
+                </p>
+            </li>
+            <li class="list-group-item">
+                <h2 class="subtitle">Making the User Model</h2>
+                <p class="paragraph">
+                    
+                </p>
+            </li>
         </ul>
     </div>
 

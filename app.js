@@ -1,6 +1,7 @@
 const   express         = require('express'),
         app             = express(),
-        passportSetup   = require('./config/passport-setup')
+        passportSetup   = require('./config/passport-setup'),
+        mongoose        = require('mongoose')
 
 
 //DOT ENV
@@ -15,15 +16,15 @@ app.set('view engine', 'ejs')
 // set up routes
 app.use('/auth',authRoutes)
 
-// mongoose.connect(process.env.DB_URL, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//     useFindAndModify: false
-// }).then(()=>{
-//     console.log(`Mongoose Connected to: ${mongoose.connection.name}`)
-// }).catch(err=>{
-//     console.log(`Error: ${err.message}`)
-// })
+mongoose.connect(process.env.DB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+}).then(()=>{
+    console.log(`Mongoose Connected to: ${mongoose.connection.name}`)
+}).catch(err=>{
+    console.log(`Error: ${err.message}`)
+})
 
 //ROUTES
 
