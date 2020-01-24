@@ -18,7 +18,7 @@ router.get('/logout',(req,res)=>{
 //Auth with google GO TO CONSENT SCREEN
 router.get('/google',passport.authenticate('google',{
     //Add , in the array if you want any other info from google
-    scope: ['profile']
+    scope: ['profile','email']
 }))
 
 //Google Redirect

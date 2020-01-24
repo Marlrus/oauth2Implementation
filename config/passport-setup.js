@@ -12,9 +12,6 @@ passport.serializeUser((user, done)=>{
 
 //Desirialize Find user based on cookie
 passport.deserializeUser(async (_id, done)=>{
-    // User.findById(_id).then((user)=>{
-    //     done(null,user)
-    // })
     const foundUser = await User.findById(_id)
     done(null,foundUser)
 })
@@ -31,7 +28,15 @@ passport.use(
         const existingUser = await User.findOne({google_id: profile.id})
         //Handle User existance
         if (existingUser){
+            console.log(profile)
             console.log(`User Exists: ${existingUser.first_name}`)
+            //Add email to existing user
+            if (!existingUser.email) {
+                console.log('Email not found, adding email')
+                existingUser.email = profile._json.email
+                await existingUser.save()
+                console.log(`Added email: ${existingUser.email}`)
+            }
             done(null,existingUser)
         } else {
             console.log('No User Found')
@@ -40,7 +45,8 @@ passport.use(
                 first_name: profile.name.givenName,
                 last_name: profile.name.familyName,
                 google_id: profile.id,
-                picture_url: profile.photos[0].value,
+                picture_url: profile._json.picture,
+                email: profile._json.email
             })
             console.log(`New user created: ${newUser}`)
             done(null,newUser)
