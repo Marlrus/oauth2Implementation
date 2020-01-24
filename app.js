@@ -8,8 +8,8 @@ const   express         = require('express'),
 
 //DOT ENV
 require('dotenv').config()
-//ROUTES
 
+//ROUTES
 const   authRoutes      = require('./routes/auth-routes')
         profileRoutes   = require('./routes/profile-routes')
 
@@ -26,6 +26,13 @@ app.use(cookieSession({
 //initialize passport
 app.use(passport.initialize())
 app.use(passport.session())
+
+//LOCALS
+app.use((req,res,next)=>{
+    res.locals.user = req.user
+    // res.locals.error = req.flash('success')
+    next()
+})
 
 // set up routes
 app.use('/auth',authRoutes)

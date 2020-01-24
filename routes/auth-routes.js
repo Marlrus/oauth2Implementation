@@ -10,7 +10,8 @@ router.get('/login', (req,res)=>{
 
 router.get('/logout',(req,res)=>{
     //handle with passport
-    res.send('Loging out')
+    req.logout()
+    res.redirect('/')
 })
 
 

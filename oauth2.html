@@ -152,7 +152,19 @@
             <li class="list-group-item">
                 <h2 class="subtitle">Profile View</h2>
                 <p class="paragraph">
-
+                    We do our standard process, we <code>req.render('profile')</code> on our redirect route. We create that template inside our views folder and then we copy the home.ejs template. We want to use the information in our template, so we send the req.user object through to the template using <code>res.render('profile', {user: req.user})</code>. We call it in our profile.ejs using the stadard ejs format. 
+                </p>
+            </li>
+            <li class="list-group-item">
+                <h2 class="subtitle">Logging out</h2>
+                <p class="paragraph">
+                    Too see our header cookies we head into the dev tools f12, network, and then refresh the page. then we can go into the requests and click on profile/ then we can see headers which will show us header info and our cookie. This is what we want to remove when we logout so there is no cookie to check for. We do this with the passport method <em>logout()</em> inside our /auth/logout route. <code>req.logout()</code> and then we redirect to home with <code>res.redirect('/')</code> which will redirect them to the '/' route which is the homepage. When we check the header again, we can see a cookie, however this cookie does not hold the id information required for authentication. We try to go to /profile and get redirected to the login page. Now we want to do conditional displaying in the header for the login and logout button. In this tutorial, The Net Ninja has a header on each template so he has to copy and paste the whole code on every single template, fortunately we created a header partial so we only have to change that one. The other thing that he does differently is that he sends the user object to every route independently, I use locals instead <code>app.use((req,res,next)={ res.locals.user = req.user next()})</code>. This line sends a user object to every template that takes the value from req.user. <strong>Note:</strong> The placement of this code in the app.js file is very improtant, do it before the route set up or it will not work.
+                </p>
+            </li>
+            <li class="list-group-item">
+                <h2 class="subtitle">Profile Thumbnail</h2>
+                <p class="paragraph">
+                    To apply everything we just did using other 3rd party services like Facebook or Github, we do the same thing except we use a facebookStrategy, or a gitHubStrategy for each case. We just have to handle the data differently, as the format that each page has for the data is different. This last video is about storing the google image URL and then using that on our profile template to display. I had already saved that data beforehand so I just had to use EJS to call it in the profile. 
                 </p>
             </li>
         </ul>
