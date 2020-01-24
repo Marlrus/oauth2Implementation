@@ -125,6 +125,24 @@
                     When someone logs in, we want to check whether the user exists already in our database so we don't create duplicates and we can ID the user. This is done in the callback before we create the user. We use the mongoose method findOne() and use google_id as our search parameter. I refactored everything to async <code>const existingUser = await User.findOne({google_id: profile.id})</code> we then use an if statement <code>if(existingUser){}else{}</code>. If the query returns a value, we can handle the data differently, if there is no existingUser then we can create one with the code we had before.
                 </p>
             </li>
+            <li class="list-group-item">
+                <h2 class="subtitle">Serializing & Desirializing Users</h2>
+                <p class="paragraph">
+                    We take and id property from their record and stuff that into a cookie that gets sent to the browser. Then when the browser communicates with the page, it will know that the user was authenticated through the cookie and who the user is. We will use <em>_id</em> from our DB. Serializing is stuffing this into into a cookie, deserializing is getting the info from that user and decoding what user it is from that cookie. This is done through two functions. We create declare functions for getting the cookie into the browser, and the function for getting a user from that cookie. Serialize is <code>passport.serializeUser((user,done)=>{done(null,user._id)})</code> this one takes the user we have and serializes the user using our _id value. The desirialize function is <code>passport.deserializeUser((_id,done)=>{User.findById(_id).then((user)=>{done(null,user)})</code> which finds a user using _id and then returns a user to be used. We call done in our google strategy for when the user exists, or when there is no user!
+                </p>
+            </li>
+            <li class="list-group-item">
+                <h2 class="subtitle">Setting up the session</h2>
+                <p class="paragraph">
+                    Up until now, this is an act of fate, for we have not set up a way to handle the cookies through a session. We will use the package <em>cookie-session</em>, we require it in our app.js and then use it with <code>app.use(cookieSession({maxAge:timeInMs,keys:[process.env.COOKIE_KEY]}))</code> the COOKIE_KEY is something we create that is used to encript and decript the cookie. Then we need to require passport in app.js and initialize it. We use <code>app.use(passport.initialize())</code> and <code>app.use(passport.session())</code>. <strong>Note:</strong> I would have, without a shadow of a doubt, done this step before the last step in order to be able to troubleshoot the code. If we made a mistake we wouldn't know until now and it would be a disaster.
+                </p>
+            </li>
+            <li class="list-group-item">
+                <h2 class="subtitle">Testing the Auth Flow</h2>
+                <p class="paragraph">
+                    
+                </p>
+            </li>
         </ul>
     </div>
 

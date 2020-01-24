@@ -5,6 +5,21 @@ const   passport        = require('passport'),
 //DOT ENV
 require('dotenv').config()
 
+//Serialize Stuff into cookie
+passport.serializeUser((user, done)=>{
+    done(null,user._id);
+})
+
+//Desirialize Find user based on cookie
+passport.deserializeUser(async (_id, done)=>{
+    // User.findById(_id).then((user)=>{
+    //     done(null,user)
+    // })
+    const foundUser = await User.findById(_id)
+    done(null,foundUser)
+})
+
+//Refactored to use async instead of promises and callbacks
 passport.use(
     new GoogleStrategy({
         //options for the google strategy
@@ -12,16 +27,12 @@ passport.use(
         clientID: process.env.CLIENT_ID,
         clientSecret: process.env.CLIENT_SECRET
     },async (accessToken,refreshToken,profile,done)=>{
-        //passport callback function
-        // console.log('====================')
-        // console.log('Callback fired')
-        // console.log('====================')
-        // console.log(profile)
-
         //Check if User exists
         const existingUser = await User.findOne({google_id: profile.id})
+        //Handle User existance
         if (existingUser){
             console.log(`User Exists: ${existingUser.first_name}`)
+            done(null,existingUser)
         } else {
             console.log('No User Found')
             //Save to mongoDB REFACTORED
@@ -32,13 +43,7 @@ passport.use(
                 picture_url: profile.photos[0].value,
             })
             console.log(`New user created: ${newUser}`)
+            done(null,newUser)
         }
-        //OLD CODE VID USES PROMISES AND IGNORES CREATE
-        // const newUser = await new User({
-        //     first_name: profile.name.givenName,
-        //     last_name: profile.name.familyName,
-        //     google_id: profile.id,
-        //     picture_url: profile.photos[0].value,
-        // }).save()
     })
 )

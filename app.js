@@ -1,7 +1,9 @@
 const   express         = require('express'),
         app             = express(),
+        passport        = require('passport')
         passportSetup   = require('./config/passport-setup'),
-        mongoose        = require('mongoose')
+        mongoose        = require('mongoose'),
+        cookieSession   = require('cookie-session')
 
 
 //DOT ENV
@@ -12,6 +14,17 @@ const   authRoutes   = require('./routes/auth-routes')
 
 //set up view engine
 app.set('view engine', 'ejs')
+
+//Cookie Session setup
+app.use(cookieSession({
+    //t in ms
+    maxAge: 24*60*60*1000,
+    keys: [process.env.COOKIE_KEY]
+}))
+
+//initialize passport
+app.use(passport.initialize())
+app.use(passport.session())
 
 // set up routes
 app.use('/auth',authRoutes)
