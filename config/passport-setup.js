@@ -1,6 +1,7 @@
 const   passport        = require('passport'),
         GoogleStrategy  = require('passport-google-oauth20'),
-        User            = require('../models/user')
+        User            = require('../models/user'),
+        {google}        = require('googleapis')
 
 //DOT ENV
 require('dotenv').config()
@@ -40,6 +41,7 @@ passport.use(
             done(null,existingUser)
         } else {
             console.log('No User Found')
+            console.log(profile)
             //Save to mongoDB REFACTORED
             const newUser = await User.create({
                 first_name: profile.name.givenName,

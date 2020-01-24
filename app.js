@@ -3,7 +3,8 @@ const   express         = require('express'),
         passport        = require('passport')
         passportSetup   = require('./config/passport-setup'),
         mongoose        = require('mongoose'),
-        cookieSession   = require('cookie-session')
+        cookieSession   = require('cookie-session'),
+        {google}        = require('googleapis')
 
 
 //DOT ENV
@@ -51,6 +52,8 @@ mongoose.connect(process.env.DB_URI, {
 //ROUTES
 
 app.get('/', (req,res)=>{
+    // console.log(google)
+    // console.log(req.user)
     res.render('home')
 })
 
