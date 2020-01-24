@@ -1,7 +1,6 @@
 const   passport        = require('passport'),
         GoogleStrategy  = require('passport-google-oauth20'),
-        User            = require('../models/user'),
-        {google}        = require('googleapis')
+        User            = require('../models/user')
 
 //DOT ENV
 require('dotenv').config()

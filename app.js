@@ -2,9 +2,10 @@ const   express         = require('express'),
         app             = express(),
         passport        = require('passport')
         passportSetup   = require('./config/passport-setup'),
+        facebookPSetup   = require('./config/facebook-p-setup'),
         mongoose        = require('mongoose'),
-        cookieSession   = require('cookie-session'),
-        {google}        = require('googleapis')
+        cookieSession   = require('cookie-session')
+        // {google}        = require('googleapis')
 
 
 //DOT ENV
