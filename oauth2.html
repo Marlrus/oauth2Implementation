@@ -181,7 +181,21 @@
             <li class="list-group-item">
                 <h2 class="subtitle">Facebook OAuth</h2>
                 <p class="paragraph">
-                    Facebook OAuth is a bit different to Google OAuth.
+                    Facebook OAuth is a bit different to Google OAuth. We need to go to <a href="https://developers.facebook.com/?no_redirect=1">facebook dev</a> and create an app there. After creating the app we need to add settings, most importantly <em>App Domains</em> where we add our app domain. And at the bottom in <em>Site URL</em> we add the same domain. At the top we get the <em>App ID</em> and <em>App Secret</em> which we need to add to our .env in order to use them for the FacebookStrategy. We must then go to products and add Facebook Login, here we don't need to add anything to the configuration. 
+                </p>
+            </li>
+            <li class="list-group-item">
+                <h2 class="subtitle">Passport Facebook Setup</h2>
+                <p class="paragraph">
+                    We create a setup file <em>facebook-p-setup.js</em> where we configure facebook. We have to install the package <em>passport-facebook</em> and require the User model. We also require dotenv to add the app id and client secret. Requiring the FacebookStrategy is slightly different <code>FacebookStrategy    = require('passport-facebook').Strategy</code>, it has the .Strategy at the end that we don't use in our GoogleStrategy. On the <code>passport.use( new FacebookStrategy({},(accessToken,refreshToken,profile,done)=>{}))</code> we use 4 parameters <em>clientID, clientSecret, callbackURL, profileFields</em>, the difference from the google startegy being <em>profileFields</em>. This part is very important, you won't get any information outside of the basic if you don't include the value in this field. We had to use: id, name, name_format, short_name, and email. We weren't getting the email until we did this. code after that is the same as the one in google <code>(accessToken,refreshToken,profile,done)=>{}</code> where we access the user data and can store it in our db.
+                </p>
+            </li>
+            <li class="list-group-item">
+                <h2 class="subtitle">Routes</h2>
+                <p class="paragraph">
+                    We create 2 routes, one for the consent screen, and one for the redirect that MUST MATCH the url provided in the setup <em>callbackURL</em>. The route for the consent screen is <code>router.get('/facebook;,passport.authenticate('facebook',{scope:['email']}))</code> we don't need to add profile to the scope because Facebook sends it standard, however we must add 'email' here and on the profileFields to get the data. <strong>Note:</strong> Don't forget to require this file in app.js <code>facebookPSetup   = require('./config/facebook-p-setup')</code>. The second route is the redirect route <code>router.get('/facebook/redirect', passport.authenticate('facebook',{successRedirect:'/',failureRedirect: '/login' }), (req,res)=>{
+                        res.redirect('/')
+                    })</code> that just redirects us to the home page. We don't have access to this page yet, as we haven't exited the loop from our setup callback function.
                 </p>
             </li>
         </ul>

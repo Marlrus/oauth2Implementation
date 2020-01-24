@@ -18,7 +18,7 @@ router.get('/logout',(req,res)=>{
 //Auth with google GO TO CONSENT SCREEN
 router.get('/google',passport.authenticate('google',{
     //Add , in the array if you want any other info from google
-    scope: ['profile','email','user_likes']
+    scope: ['profile','email']
 }))
 
 //Google Redirect
@@ -34,10 +34,8 @@ router.get('/google/redirect', passport.authenticate('google'), (req,res)=>{
 //Facebook Consent Screen
 router.get('/facebook', passport.authenticate('facebook',{
     scope: ['email']
-}));
+}))
 
-router.get('/facebook/redirect', passport.authenticate('facebook',{successRedirect:'/',failureRedirect: '/login' }), (req,res)=>{
-    res.redirect('/')
-});
+router.get('/facebook/redirect', passport.authenticate('facebook',{successRedirect:'/profile',failureRedirect: '/login' }))
 
 module.exports = router

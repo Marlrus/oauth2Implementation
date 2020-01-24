@@ -25,7 +25,7 @@ passport.use(
         clientSecret: process.env.CLIENT_SECRET
     },async (accessToken,refreshToken,profile,done)=>{
         //Check if User exists
-        const existingUser = await User.findOne({google_id: profile.id})
+        const existingUser = await User.findOne({external_id: profile.id})
         //Handle User existance
         if (existingUser){
             console.log(profile)
@@ -45,9 +45,10 @@ passport.use(
             const newUser = await User.create({
                 first_name: profile.name.givenName,
                 last_name: profile.name.familyName,
-                google_id: profile.id,
+                external_id: profile.id,
                 picture_url: profile._json.picture,
-                email: profile._json.email
+                email: profile._json.email,
+                google_login: true
             })
             console.log(`New user created: ${newUser}`)
             done(null,newUser)
