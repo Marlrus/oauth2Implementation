@@ -140,7 +140,19 @@
             <li class="list-group-item">
                 <h2 class="subtitle">Testing the Auth Flow</h2>
                 <p class="paragraph">
-                    
+                    We test our setup by clicking the button we had and realizing that it doesn't hang anymore. This means we are now logged in to the session. Our passport package does something else pretty cool, that is attach our user to the <em><u>req</u></em> object, that allows us to access user parameters directly. This allows us to use that data iniside a view if we want to.
+                </p>
+            </li>
+            <li class="list-group-item">
+                <h2 class="subtitle">Redirecting Users</h2>
+                <p class="paragraph">
+                    Redirect based on auth status. We want to redirect the user to a profile page once they are logged in. We don't have routes for profile so we create a file <em>profile-routes.js</em> where we will handle those routes. There we will require router and do module.exports. The route is <code>router.get('/', authCheck, (req,res)=>{res.send('PROFILE ' + req.user.first_name)})</code> where we are running a middleware function authCheck to handle users. We declare a function <code>const authCheck</code> that will check whether a user is logged in or not through <code>if(req.user){}else{}</code>. Passport will store the user in <em>req.user</em> therefore if it exists the user is logged in and it will trigger <code>next()</code> which will make the route continue to execute and send us to the profile page. If not, we use <code>res.redirect('/auth/login')</code> which redirects the user to the login page. 
+                </p>
+            </li>
+            <li class="list-group-item">
+                <h2 class="subtitle">Profile View</h2>
+                <p class="paragraph">
+
                 </p>
             </li>
         </ul>

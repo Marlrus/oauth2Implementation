@@ -10,7 +10,8 @@ const   express         = require('express'),
 require('dotenv').config()
 //ROUTES
 
-const   authRoutes   = require('./routes/auth-routes')
+const   authRoutes      = require('./routes/auth-routes')
+        profileRoutes   = require('./routes/profile-routes')
 
 //set up view engine
 app.set('view engine', 'ejs')
@@ -28,6 +29,7 @@ app.use(passport.session())
 
 // set up routes
 app.use('/auth',authRoutes)
+app.use('/profile',profileRoutes)
 
 mongoose.connect(process.env.DB_URI, {
     useNewUrlParser: true,
