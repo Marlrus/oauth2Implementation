@@ -193,9 +193,13 @@
             <li class="list-group-item">
                 <h2 class="subtitle">Routes</h2>
                 <p class="paragraph">
-                    We create 2 routes, one for the consent screen, and one for the redirect that MUST MATCH the url provided in the setup <em>callbackURL</em>. The route for the consent screen is <code>router.get('/facebook;,passport.authenticate('facebook',{scope:['email']}))</code> we don't need to add profile to the scope because Facebook sends it standard, however we must add 'email' here and on the profileFields to get the data. <strong>Note:</strong> Don't forget to require this file in app.js <code>facebookPSetup   = require('./config/facebook-p-setup')</code>. The second route is the redirect route <code>router.get('/facebook/redirect', passport.authenticate('facebook',{successRedirect:'/',failureRedirect: '/login' }), (req,res)=>{
-                        res.redirect('/')
-                    })</code> that just redirects us to the home page. We don't have access to this page yet, as we haven't exited the loop from our setup callback function.
+                    We create 2 routes, one for the consent screen, and one for the redirect that MUST MATCH the url provided in the setup <em>callbackURL</em>. The route for the consent screen is <code>router.get('/facebook;,passport.authenticate('facebook',{scope:['email']}))</code> we don't need to add profile to the scope because Facebook sends it standard, however we must add 'email' here and on the profileFields to get the data. <strong>Note:</strong> Don't forget to require this file in app.js <code>facebookPSetup   = require('./config/facebook-p-setup')</code>. The second route is the redirect route <code>router.get('/facebook/redirect', passport.authenticate('facebook',{successRedirect:'/profile',failureRedirect: '/login' }))</code> that just redirects us to the profile page. We don't have access to this page yet, as we haven't exited the loop from our setup callback function.
+                </p>
+            </li>
+            <li class="list-group-item">
+                <h2 class="subtitle">Final touches</h2>
+                <p class="paragraph">
+                    I altered the user model, adding 3 booleans: google_login, facebook_login, and local_login, for the 3 types of login we will handle. I also changed google_id to external_id, this will let me handle the logic for both facebook and google checks using the same value <em>external_id</em>. The boolean will allow me to know where they came from if I need to, but will make things easier in the future. I added the code in FacebookStrategy to check for an existing user <code>const existingUser = await User.findOne({external_id: profile._json.id})</code> then I used <code>if(existingUser){}else{}</code> to handle both cases. I added the code for done in both cases and I copied and pasted the serialize and desirialize from the passport-setup. I tested and retested the code and did a few cleanups and got it working. I am wondering if I can use express-session instead of cookie-session. <strong>Note:</strong> Upon reading, cookie-session is the best way to go as it contorls sessions via the client browser, express-session handles it server side and is not ideal. Will use cookie-session in the future.
                 </p>
             </li>
         </ul>

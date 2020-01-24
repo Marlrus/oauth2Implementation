@@ -28,7 +28,7 @@ passport.use(
         const existingUser = await User.findOne({external_id: profile.id})
         //Handle User existance
         if (existingUser){
-            console.log(profile)
+            // console.log(profile)
             console.log(`User Exists: ${existingUser.first_name}`)
             //Add email to existing user
             if (!existingUser.email) {
